@@ -3,86 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokenins Admin</title>
+    <title>Pokenins Inventory Manager</title>
     <link rel="icon" type="image/svg+xml" href="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
-        :root { --bg: #0f0c29; --card: rgba(255,255,255,0.05); --accent: #ff7eb3; --text: #ffffff; }
+        :root { --bg: #0f0c29; --card: rgba(255,255,255,0.05); --accent: #ff7eb3; --text: #ffffff; --border: rgba(255,255,255,0.15); }
         body { background: var(--bg); color: var(--text); font-family: 'Quicksand', sans-serif; padding: 2rem; min-height: 100vh; }
-        .container { max-width: 650px; margin: 0 auto; position: relative; z-index: 1; }
-        h1 { text-align: center; color: var(--accent); margin-bottom: 2.5rem; font-weight: 800; letter-spacing: 2px; }
-        .card { background: var(--card); padding: 2.5rem; border-radius: 24px; border: 1px solid rgba(255,255,255,0.15); margin-bottom: 2rem; backdrop-filter: blur(20px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
-        label { display: block; margin-bottom: 0.5rem; color: #b8c1ec; font-weight: 700; font-size: 0.95rem; }
-        input, select { width: 100%; padding: 14px; margin-bottom: 1.5rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 12px; font-family: 'Quicksand', sans-serif; font-size: 1rem; transition: 0.3s; }
-        input:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px rgba(255, 126, 179, 0.3); }
-        button { width: 100%; padding: 1.2rem; background: linear-gradient(135deg, var(--accent), #9d4edd); color: white; font-weight: 800; border: none; border-radius: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; font-size: 1.1rem; transition: 0.3s; }
-        button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 126, 179, 0.4); }
         
-        ul { padding: 0; margin: 0; list-style: none; }
-        li { background: rgba(255,255,255,0.05); padding: 1.5rem; margin-bottom: 1rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; gap: 1rem; transition: 0.3s; }
-        li:hover { background: rgba(255,255,255,0.08); border-color: var(--accent); }
-        .item-title { font-weight: 800; font-size: 1.2rem; }
-        .item-meta { font-size: 0.9rem; color: #b8c1ec; margin-top: 8px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-weight: 600;}
+        /* Floating Wigglypuff Admin Background */
+        .admin-bg { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 500px; opacity: 0.05; pointer-events: none; z-index: -1; }
+
+        .container { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+        h1 { display: flex; align-items: center; gap: 15px; color: var(--accent); margin-bottom: 2rem; font-weight: 800; font-size: 2rem; }
         
-        .badge { padding: 6px 12px; font-size: 0.75rem; border-radius: 8px; font-weight: 800; text-transform: uppercase; }
-        .b-msrp { background: rgba(255,255,255,0.15); color: #fff; }
-        .b-bundle { background: #9d4edd; color: #fff; }
-        .b-baller { background: linear-gradient(135deg, #f6d365, #fda085); color: #fff; }
+        .card { background: var(--card); padding: 2rem; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 2rem; backdrop-filter: blur(10px); }
         
-        .btn-group { display: flex; gap: 10px; }
-        .btn-edit { background: #8fd3f4; color: #1a1a24; padding: 10px 20px;}
-        .btn-del { background: #ff4b4b; color: white; padding: 10px 20px;}
+        /* Clean Form Grid */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 1rem; }
+        .form-full { grid-column: 1 / -1; }
         
-        @media(min-width: 600px) { li { flex-direction: row; align-items: center; } .btn-group { width: auto; flex-shrink: 0; } .btn-group button { width: auto; } }
-        #login-section { display: block; } #admin-section { display: none; }
+        label { display: block; margin-bottom: 5px; color: #b8c1ec; font-weight: 700; font-size: 0.9rem; }
+        input, select { width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: white; border-radius: 8px; font-family: 'Quicksand', sans-serif; font-size: 1rem; }
+        input:focus, select:focus { outline: none; border-color: var(--accent); }
+        
+        .checkbox-wrapper { display: flex; align-items: center; gap: 10px; margin-top: 10px; cursor: pointer; }
+        .checkbox-wrapper input { width: 20px; height: 20px; cursor: pointer; margin: 0; }
+        
+        button { background: var(--accent); color: #0f0c29; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; padding: 12px 20px; transition: 0.2s; }
+        button:hover { filter: brightness(1.1); }
+        .btn-full { width: 100%; margin-top: 10px; }
+
+        /* Inventory Table */
+        .inventory-list { display: flex; flex-direction: column; gap: 10px; }
+        .inv-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .inv-info { flex: 1; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 15px; align-items: center; }
+        .inv-name { font-weight: 800; font-size: 1.1rem; }
+        .inv-cat { font-size: 0.85rem; color: #b8c1ec; }
+        
+        .status-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; text-align: center; }
+        .status-active { background: rgba(0, 255, 100, 0.15); color: #00ff64; border: 1px solid #00ff64; }
+        .status-hidden { background: rgba(255, 75, 75, 0.15); color: #ff4b4b; border: 1px solid #ff4b4b; }
+        
+        .btn-group { display: flex; gap: 8px; margin-left: 15px; }
+        .btn-edit { background: #8fd3f4; padding: 8px 15px; font-size: 0.9rem; }
+        .btn-del { background: transparent; color: #ff4b4b; border: 1px solid #ff4b4b; padding: 8px 15px; font-size: 0.9rem; }
+        .btn-del:hover { background: #ff4b4b; color: white; }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .inv-item { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .inv-info { grid-template-columns: 1fr; gap: 5px; width: 100%; }
+            .btn-group { margin-left: 0; width: 100%; }
+            .btn-group button { flex: 1; }
+        }
+        #login-section { display: block; max-width: 400px; margin: 100px auto; } 
+        #admin-section { display: none; }
     </style>
 </head>
 <body>
+    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/039.png" class="admin-bg">
+    
     <div class="container">
-        <h1>POKENINS ADMIN</h1>
         <div id="login-section" class="card">
+            <h1 style="justify-content:center;">LOGIN</h1>
             <label>Username</label><input type="text" id="login-username">
             <label>Password</label><input type="password" id="login-password">
-            <button onclick="login()">Enter Dashboard</button>
+            <button class="btn-full" onclick="login()">Enter Dashboard</button>
         </div>
+
         <div id="admin-section">
+            <h1><i class="ph-fill ph-clipboard-text"></i> Inventory Manager</h1>
+            
             <div class="card">
-                <h3 style="margin-top:0; margin-bottom:2rem; font-size:1.5rem; color:var(--accent);">Add / Edit Pack</h3>
-                <div style="display:flex; gap:15px;">
-                    <div style="flex:1">
-                        <label>Category Tag</label>
-                        <select id="item-type">
-                            <option value="msrp">Standard</option>
-                            <option value="bundle">Bundle</option>
-                            <option value="baller">Premium</option>
+                <h3 style="margin-top:0; margin-bottom:1.5rem; font-size:1.2rem; color:var(--accent);">Add / Edit Item</h3>
+                
+                <div class="form-grid">
+                    <div class="form-full">
+                        <label>Item Name</label>
+                        <input type="text" id="item-name" placeholder="e.g. Ascended Heroes Booster">
+                    </div>
+                    
+                    <div>
+                        <label>Category</label>
+                        <select id="item-category">
+                            <option value="Pokémon (English Loose Packs)">Pokémon (English Loose Packs)</option>
+                            <option value="Pokémon (Japanese Boxes)">Pokémon (Japanese Boxes)</option>
+                            <option value="Hitskies">Hitskies</option>
+                            <option value="At Your Own Risk, Degens">At Your Own Risk, Degens</option>
+                            <option value="Other TCGs">Other TCGs</option>
                         </select>
                     </div>
-                    <div style="flex:1">
-                        <label>Visibility Status</label>
-                        <select id="item-hidden"><option value="false">Public</option><option value="true">Hidden</option></select>
+
+                    <div>
+                        <label>Small Description (Optional)</label>
+                        <input type="text" id="item-desc" placeholder="e.g. Limit 5 per household">
+                    </div>
+
+                    <div>
+                        <label>Price ($)</label>
+                        <input type="number" step="0.5" id="item-price" placeholder="9.50">
+                    </div>
+
+                    <div>
+                        <label>Stock Available</label>
+                        <input type="number" id="item-stock" placeholder="30">
+                    </div>
+
+                    <div class="form-full">
+                        <label>Payment / Checkout Link (Leave blank if you don't want a button)</label>
+                        <input type="url" id="item-link" placeholder="https://paypal.me/...">
                     </div>
                 </div>
-                <label>Pack Name (e.g. Ascended Heroes)</label><input type="text" id="item-name">
-                <label>Short Description (e.g. Limit 5 per household)</label><input type="text" id="item-description">
-                <div style="display:flex; gap:15px;">
-                    <div style="flex:1"><label>Price ($)</label><input type="number" step="0.5" id="item-price"></div>
-                    <div style="flex:1"><label>Available Stock</label><input type="number" id="item-stock"></div>
+
+                <label class="checkbox-wrapper">
+                    <input type="checkbox" id="item-active" checked>
+                    <span style="font-weight:700;">Item is Active (Visible on Store)</span>
+                </label>
+
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <button onclick="submitItem()" id="submit-btn" style="flex:1;">Save to Inventory</button>
+                    <button onclick="resetForm()" style="background:transparent; border:1px solid var(--border); color:white;">Cancel Edit</button>
                 </div>
-                <label>Payment / Form Link</label><input type="url" id="item-google-form-link">
-                <label>Cover Image</label><input type="file" id="item-image" style="padding:10px;">
-                <button id="submit-btn" onclick="submitItem()" style="margin-top:1rem;">Save Pack to Store</button>
             </div>
             
-            <h3 style="color:#b8c1ec; font-size:1.2rem; margin-bottom:1.5rem; text-transform:uppercase; letter-spacing:2px;">Current Inventory</h3>
-            <ul id="item-list"></ul>
-            <button onclick="logout()" style="background:rgba(255,255,255,0.1); color:white; margin-top:3rem; box-shadow:none;">Log Out</button>
+            <h3 style="color:#b8c1ec; margin-bottom:1rem;">Current Store Inventory</h3>
+            <div class="inventory-list" id="item-list"></div>
+            
+            <button onclick="logout()" style="background:transparent; border:1px solid #ff4b4b; color:#ff4b4b; margin-top:3rem;">Log Out</button>
         </div>
     </div>
+
     <script>
         const API_URL = 'https://pokenins-api.kronborgnielsen.workers.dev/api';
-        
-        let allItems = [], editingId = null, currentImage = '', currentCreatedAt = null, currentClicks = 0; 
+        let allItems = [], editingId = null;
 
         if(localStorage.getItem('adminToken')) {
             document.getElementById('login-section').style.display='none';
@@ -93,80 +147,33 @@
         async function login() {
             const u = document.getElementById('login-username').value;
             const p = document.getElementById('login-password').value;
-            const btn = document.querySelector('#login-section button');
-            const originalText = btn.innerText;
-            btn.innerText = "Authenticating...";
-
             try {
-                const res = await fetch(`${API_URL}/login`, { 
-                    method:'POST', 
-                    headers:{'Content-Type':'application/json'}, 
-                    body:JSON.stringify({username:u, password:p}) 
-                });
-                
-                const text = await res.text(); // Read raw text to catch Cloudflare errors
-
-                if (res.status === 401) {
-                    alert('Incorrect Username or Password!');
-                    btn.innerText = originalText;
-                    return;
-                }
-
-                if (!res.ok) {
-                    alert(`Cloudflare Error (${res.status}):\n${text}`);
-                    btn.innerText = originalText;
-                    return;
-                }
-
-                const data = JSON.parse(text);
-                if(data.success) { 
-                    localStorage.setItem('adminToken','1'); 
-                    location.reload(); 
-                } 
-            } catch(e) { 
-                alert(`Network Connection Error:\n${e.message}\n\nThis usually means a browser ad-blocker stopped the request, or your internet dropped.`); 
-                btn.innerText = originalText;
-            }
+                const res = await fetch(`${API_URL}/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:u, password:p}) });
+                if(res.ok) { localStorage.setItem('adminToken','1'); location.reload(); } 
+                else alert('Incorrect Login!');
+            } catch(e) { alert('Network Error.'); }
         }
 
         async function submitItem() {
-            const btn = document.getElementById('submit-btn'); 
-            const originalText = btn.innerText;
-            btn.innerText = "Saving...";
+            const btn = document.getElementById('submit-btn'); btn.innerText = "Saving...";
             
-            const type = document.getElementById('item-type').value;
-            const hidden = document.getElementById('item-hidden').value === 'true';
-            const name = document.getElementById('item-name').value;
-            const desc = document.getElementById('item-description').value;
-            const price = parseFloat(document.getElementById('item-price').value) || 0;
-            const stock = parseInt(document.getElementById('item-stock').value) || 0;
-            const form = document.getElementById('item-google-form-link').value;
-            const file = document.getElementById('item-image').files[0];
-
-            let img = editingId ? currentImage : '';
-            if(file) {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                await new Promise(r => reader.onload = () => { img = reader.result; r(); });
-            }
-
-            const body = { type, name, description:desc, price, stock, googleFormLink:form, image:img, clickCount: editingId ? currentClicks : 0, createdAt: editingId ? currentCreatedAt : Date.now(), hidden };
+            const body = { 
+                category: document.getElementById('item-category').value, 
+                name: document.getElementById('item-name').value, 
+                description: document.getElementById('item-desc').value, 
+                price: parseFloat(document.getElementById('item-price').value) || 0, 
+                stock: parseInt(document.getElementById('item-stock').value) || 0, 
+                paymentLink: document.getElementById('item-link').value, 
+                isActive: document.getElementById('item-active').checked
+            };
+            
             const url = editingId ? `${API_URL}/items/${editingId}` : `${API_URL}/items`;
             const method = editingId ? 'PUT' : 'POST';
 
             try {
-                const res = await fetch(url, { method, headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
-                if(!res.ok) throw new Error(`Server returned ${res.status}`);
-                
-                editingId = null; currentImage = ''; currentCreatedAt = null; currentClicks = 0;
-                document.querySelectorAll('input[type="text"], input[type="number"], input[type="url"], input[type="file"]').forEach(i => i.value = '');
-                document.getElementById('item-type').value = 'msrp'; document.getElementById('item-hidden').value = 'false';
-                btn.innerText = "Save Pack to Store"; 
-                loadItems();
-            } catch(e) { 
-                alert(`Failed to save: ${e.message}`); 
-                btn.innerText = originalText; 
-            }
+                await fetch(url, { method, headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+                resetForm(); loadItems();
+            } catch(e) { alert("Save Failed."); }
         }
 
         async function loadItems() {
@@ -175,64 +182,63 @@
                 const items = await res.json();
                 if(items.error) return;
 
-                items.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
                 allItems = items;
-                const list = document.getElementById('item-list'); 
-                list.innerHTML = '';
+                const list = document.getElementById('item-list'); list.innerHTML = '';
                 
                 items.forEach(item => {
-                    let badgeClass = 'b-msrp'; let badgeText = 'Standard';
-                    if (item.type === 'baller') { badgeClass = 'b-baller'; badgeText = 'Premium'; } 
-                    else if (item.type === 'bundle') { badgeClass = 'b-bundle'; badgeText = 'Bundle'; }
-                    
-                    const hiddenBadge = item.hidden ? '<span class="badge" style="background:#ff4b4b; color:white;">Hidden</span>' : '';
-                    
+                    const statusHtml = item.isActive 
+                        ? `<span class="status-badge status-active">Active</span>` 
+                        : `<span class="status-badge status-hidden">Hidden</span>`;
+                        
                     list.innerHTML += `
-                        <li style="${item.hidden ? 'opacity: 0.5;' : ''}">
-                            <div style="flex:1">
-                                <div style="display:flex; gap:10px; align-items:center;">
-                                    <span class="item-title">${item.name}</span>
-                                    ${hiddenBadge} <span class="badge ${badgeClass}">${badgeText}</span> 
+                        <div class="inv-item" style="${!item.isActive ? 'opacity:0.6;' : ''}">
+                            <div class="inv-info">
+                                <div>
+                                    <div class="inv-name">${item.name}</div>
+                                    <div class="inv-cat">${item.category}</div>
                                 </div>
-                                <div class="item-meta">
-                                    <span style="color:#fff;">$${item.price}</span> • <span>Stock: ${item.stock}</span> • <span>🖱️ ${item.clickCount||0} clicks</span>
-                                </div>
+                                <div style="font-weight:700;">$${item.price}</div>
+                                <div style="color:var(--accent-blue); font-weight:700;">Stock: ${item.stock}</div>
+                                <div>${statusHtml}</div>
                             </div>
                             <div class="btn-group">
                                 <button class="btn-edit" onclick="startEditing('${item.id}')">Edit</button>
                                 <button class="btn-del" onclick="deleteItem('${item.id}')">Delete</button>
                             </div>
-                        </li>`;
+                        </div>`;
                 });
-            } catch(e) {
-                console.error("Failed to load items:", e);
-            }
+            } catch(e) {}
         }
 
         function startEditing(id) {
             const item = allItems.find(i => i.id === id);
             if(item) {
-                editingId = item.id; currentImage = item.image; currentCreatedAt = item.createdAt; currentClicks = item.clickCount || 0; 
-                document.getElementById('item-type').value = item.type || 'msrp';
-                document.getElementById('item-hidden').value = item.hidden ? 'true' : 'false';
-                document.getElementById('item-name').value = item.name; document.getElementById('item-description').value = item.description;
-                document.getElementById('item-price').value = item.price; document.getElementById('item-stock').value = item.stock;
-                document.getElementById('item-google-form-link').value = item.googleFormLink || '';
-                document.getElementById('submit-btn').innerText = "Update Pack"; window.scrollTo(0,0);
+                editingId = item.id; 
+                document.getElementById('item-category').value = item.category || 'Pokémon (English Loose Packs)';
+                document.getElementById('item-name').value = item.name; 
+                document.getElementById('item-desc').value = item.description || '';
+                document.getElementById('item-price').value = item.price; 
+                document.getElementById('item-stock').value = item.stock;
+                document.getElementById('item-link').value = item.paymentLink || '';
+                document.getElementById('item-active').checked = item.isActive !== false; // defaults to true
+                
+                document.getElementById('submit-btn').innerText = "Update Item"; 
+                window.scrollTo(0,0);
             }
         }
 
-        async function deleteItem(id) { 
-            if(confirm('Are you sure you want to delete this pack?')) { 
-                try {
-                    await fetch(`${API_URL}/items/${id}`, {method:'DELETE'}); 
-                    loadItems(); 
-                } catch(e) {
-                    alert("Delete failed: " + e.message);
-                }
-            } 
+        function resetForm() {
+            editingId = null;
+            document.getElementById('item-name').value = ''; 
+            document.getElementById('item-desc').value = '';
+            document.getElementById('item-price').value = ''; 
+            document.getElementById('item-stock').value = '';
+            document.getElementById('item-link').value = '';
+            document.getElementById('item-active').checked = true;
+            document.getElementById('submit-btn').innerText = "Save to Inventory";
         }
-        
+
+        async function deleteItem(id) { if(confirm('Delete this item completely?')) { await fetch(`${API_URL}/items/${id}`, {method:'DELETE'}); loadItems(); } }
         function logout() { localStorage.removeItem('adminToken'); location.reload(); }
     </script>
 </body>
