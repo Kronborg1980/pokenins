@@ -93,22 +93,53 @@
         async function login() {
             const u = document.getElementById('login-username').value;
             const p = document.getElementById('login-password').value;
+            const btn = document.querySelector('#login-section button');
+            const originalText = btn.innerText;
+            btn.innerText = "Authenticating...";
+
             try {
-                const res = await fetch(`${API_URL}/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:u, password:p}) });
-                const data = await res.json();
-                if(data.success) { localStorage.setItem('adminToken','1'); location.reload(); } 
-                else alert('Invalid Credentials.');
-            } catch(e) { alert('Server Error.'); }
+                const res = await fetch(`${API_URL}/login`, { 
+                    method:'POST', 
+                    headers:{'Content-Type':'application/json'}, 
+                    body:JSON.stringify({username:u, password:p}) 
+                });
+                
+                const text = await res.text(); // Read raw text to catch Cloudflare errors
+
+                if (res.status === 401) {
+                    alert('Incorrect Username or Password!');
+                    btn.innerText = originalText;
+                    return;
+                }
+
+                if (!res.ok) {
+                    alert(`Cloudflare Error (${res.status}):\n${text}`);
+                    btn.innerText = originalText;
+                    return;
+                }
+
+                const data = JSON.parse(text);
+                if(data.success) { 
+                    localStorage.setItem('adminToken','1'); 
+                    location.reload(); 
+                } 
+            } catch(e) { 
+                alert(`Network Connection Error:\n${e.message}\n\nThis usually means a browser ad-blocker stopped the request, or your internet dropped.`); 
+                btn.innerText = originalText;
+            }
         }
 
         async function submitItem() {
-            const btn = document.getElementById('submit-btn'); btn.innerText = "Saving...";
+            const btn = document.getElementById('submit-btn'); 
+            const originalText = btn.innerText;
+            btn.innerText = "Saving...";
+            
             const type = document.getElementById('item-type').value;
             const hidden = document.getElementById('item-hidden').value === 'true';
             const name = document.getElementById('item-name').value;
             const desc = document.getElementById('item-description').value;
-            const price = parseFloat(document.getElementById('item-price').value);
-            const stock = parseInt(document.getElementById('item-stock').value);
+            const price = parseFloat(document.getElementById('item-price').value) || 0;
+            const stock = parseInt(document.getElementById('item-stock').value) || 0;
             const form = document.getElementById('item-google-form-link').value;
             const file = document.getElementById('item-image').files[0];
 
@@ -124,12 +155,18 @@
             const method = editingId ? 'PUT' : 'POST';
 
             try {
-                await fetch(url, { method, headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+                const res = await fetch(url, { method, headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+                if(!res.ok) throw new Error(`Server returned ${res.status}`);
+                
                 editingId = null; currentImage = ''; currentCreatedAt = null; currentClicks = 0;
                 document.querySelectorAll('input[type="text"], input[type="number"], input[type="url"], input[type="file"]').forEach(i => i.value = '');
                 document.getElementById('item-type').value = 'msrp'; document.getElementById('item-hidden').value = 'false';
-                btn.innerText = "Save Pack to Store"; loadItems();
-            } catch(e) { alert("Save Failed."); btn.innerText = "Save Failed"; }
+                btn.innerText = "Save Pack to Store"; 
+                loadItems();
+            } catch(e) { 
+                alert(`Failed to save: ${e.message}`); 
+                btn.innerText = originalText; 
+            }
         }
 
         async function loadItems() {
@@ -140,7 +177,8 @@
 
                 items.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
                 allItems = items;
-                const list = document.getElementById('item-list'); list.innerHTML = '';
+                const list = document.getElementById('item-list'); 
+                list.innerHTML = '';
                 
                 items.forEach(item => {
                     let badgeClass = 'b-msrp'; let badgeText = 'Standard';
@@ -166,7 +204,9 @@
                             </div>
                         </li>`;
                 });
-            } catch(e) {}
+            } catch(e) {
+                console.error("Failed to load items:", e);
+            }
         }
 
         function startEditing(id) {
@@ -182,7 +222,17 @@
             }
         }
 
-        async function deleteItem(id) { if(confirm('Are you sure you want to delete this pack?')) { await fetch(`${API_URL}/items/${id}`, {method:'DELETE'}); loadItems(); } }
+        async function deleteItem(id) { 
+            if(confirm('Are you sure you want to delete this pack?')) { 
+                try {
+                    await fetch(`${API_URL}/items/${id}`, {method:'DELETE'}); 
+                    loadItems(); 
+                } catch(e) {
+                    alert("Delete failed: " + e.message);
+                }
+            } 
+        }
+        
         function logout() { localStorage.removeItem('adminToken'); location.reload(); }
     </script>
 </body>
