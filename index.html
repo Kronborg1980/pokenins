@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokenins | Card Breaks & Collections</title>
+    <title>Pokenins | Rip & Ship</title>
     
     <link rel="icon" type="image/svg+xml" href="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,177 +12,115 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         :root {
-            --bg-deep: #0f0c29;
-            --bg-mid: #302b63;
-            --bg-light: #24243e;
-            --accent-pink: #ff7eb3;
-            --accent-purple: #9d4edd;
-            --accent-blue: #8fd3f4;
-            --text-main: #ffffff;
-            --text-muted: #b8c1ec;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.15);
-            --guardian-size: clamp(120px, 15vw, 220px);
+            --bg-deep: #0f0c29; --bg-mid: #302b63; --bg-light: #24243e;
+            --accent-pink: #ff7eb3; --accent-purple: #9d4edd; --accent-blue: #8fd3f4;
+            --text-main: #ffffff; --text-muted: #b8c1ec;
+            --card-bg: rgba(255, 255, 255, 0.05); --card-border: rgba(255, 255, 255, 0.15);
+            --guardian-size: clamp(100px, 12vw, 180px);
         }
         
         * { margin:0; padding:0; box-sizing:border-box; }
         
-        body {
-            font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, var(--bg-deep), var(--bg-mid), var(--bg-light));
-            background-attachment: fixed;
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+        body { font-family: 'Quicksand', sans-serif; background: linear-gradient(135deg, var(--bg-deep), var(--bg-mid), var(--bg-light)); background-attachment: fixed; color: var(--text-main); min-height: 100vh; overflow-x: hidden; position: relative; }
 
-        .ambient-blob {
-            position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.4; z-index: -10;
-            animation: drift 20s infinite alternate ease-in-out; pointer-events: none;
-        }
-        .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: var(--accent-pink); animation-delay: 0s; }
+        /* Magical Background */
+        .ambient-blob { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.3; z-index: -10; animation: drift 20s infinite alternate ease-in-out; pointer-events: none; }
+        .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: var(--accent-pink); }
         .blob-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: var(--accent-blue); animation-delay: -5s; }
         .blob-3 { top: 40%; left: 60%; width: 400px; height: 400px; background: var(--accent-purple); animation-delay: -10s; }
-
         @keyframes drift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
 
-        .poke-bg {
-            position: fixed; pointer-events: none; z-index: -5; opacity: 0.25; 
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.4)); will-change: transform; 
-        }
-        
+        /* Floating Cat Pokemon */
+        .poke-bg { position: fixed; pointer-events: none; z-index: -5; opacity: 0.15; filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.4)); }
         .p-mew { top: 5%; left: 2%; width: var(--guardian-size); animation: float 12s infinite ease-in-out; }
         .p-espeon { top: 5%; right: 2%; width: var(--guardian-size); animation: floatFlipped 14s infinite ease-in-out; }
-        .p-skitty { top: 45%; left: -2%; width: calc(var(--guardian-size)*0.8); animation: floatMid 10s infinite ease-in-out 1s; }
-        .p-sprigatito { top: 45%; right: -2%; width: calc(var(--guardian-size)*0.8); animation: floatMid 11s infinite ease-in-out 2s; transform: scaleX(-1); }
-        .p-purrloin { bottom: 5%; right: 5%; width: calc(var(--guardian-size) * 0.7); animation: sway 10s infinite ease-in-out 1s; transform: scaleX(-1); }
-
+        .p-skitty { top: 40%; left: -2%; width: calc(var(--guardian-size)*0.8); animation: floatMid 10s infinite ease-in-out 1s; }
+        .p-sprigatito { top: 40%; right: -2%; width: calc(var(--guardian-size)*0.8); animation: floatMid 11s infinite ease-in-out 2s; transform: scaleX(-1); }
         @keyframes float { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(15px, -20px, 0); } }
         @keyframes floatFlipped { 0%, 100% { transform: scaleX(-1) translate3d(0, 0, 0); } 50% { transform: scaleX(-1) translate3d(-15px, -20px, 0); } }
         @keyframes floatMid { 0%, 100% { transform: translate3d(0, -30px, 0); } 50% { transform: translate3d(10px, 10px, 0); } }
-        @keyframes sway { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
+        /* Typography & Layout */
         main { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 2rem; margin-bottom: 4rem; }
-        header { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 1rem 3rem; text-align: center; }
+        header { text-align: center; padding: 4rem 1rem 2rem; }
+        h1 { font-size: clamp(3rem, 8vw, 5rem); font-weight: 800; letter-spacing: 2px; line-height: 1.1; background: linear-gradient(to right, #fff, var(--accent-pink), var(--accent-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px rgba(255, 126, 179, 0.3)); }
+        .subtitle { color: var(--text-main); font-size: 1.1rem; font-weight: 700; margin-top: 1rem; letter-spacing: 2px; text-transform: uppercase; background: rgba(255, 126, 179, 0.2); border: 1px solid var(--accent-pink); display: inline-block; padding: 8px 20px; border-radius: 30px; }
+
+        /* Glass Panels */
+        .glass-panel { background: var(--card-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 20px; border: 1px solid var(--card-border); border-top: 1px solid rgba(255,255,255,0.2); box-shadow: 0 15px 35px rgba(0,0,0,0.2); overflow: hidden; margin-bottom: 2rem; }
         
-        h1 {
-            font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 800; letter-spacing: 2px;
-            margin: 0; line-height: 1;
-            background: linear-gradient(to right, #fff, var(--accent-pink), var(--accent-blue));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(255, 126, 179, 0.4));
-        }
-        .subtitle { color: var(--text-muted); font-size: 1.3rem; font-weight: 600; margin-top: 1rem; letter-spacing: 3px; text-transform: uppercase; }
-
-        .glass-panel {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 1px solid var(--card-border);
-            border-top: 1px solid rgba(255,255,255,0.3);
-            border-left: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            overflow: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .sub-info-panel { display: flex; align-items: center; justify-content: space-between; padding: 3rem; gap: 3rem; flex-wrap: wrap; margin-bottom: 4rem; }
-        .sub-text { flex: 1; min-width: 300px; }
-        .sub-text h3 { display: flex; align-items: center; gap: 12px; font-size: 1.8rem; color: #fff; margin-bottom: 0.8rem; font-weight: 700; text-shadow: 0 0 10px var(--accent-pink); }
-        .sub-text p { color: var(--text-muted); line-height: 1.7; font-size: 1.1rem; font-weight: 500; }
-        
-        .sub-btn {
-            background: linear-gradient(135deg, var(--accent-pink), #ff4b4b); color: white; padding: 15px 35px; border-radius: 50px;
-            text-decoration: none; font-weight: 800; display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 10px 25px rgba(255, 126, 179, 0.5); letter-spacing: 1.5px; font-size: 1.2rem; transition: 0.3s;
-            border: 2px solid transparent;
-        }
-        .sub-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 35px rgba(255, 126, 179, 0.7); border-color: #fff; }
-
-        .section-header { display: flex; align-items: center; gap: 1.5rem; margin: 4rem 0 2.5rem; }
-        .section-title { color: #fff; font-weight: 800; letter-spacing: 3px; font-size: 1.6rem; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .section-header { display: flex; align-items: center; gap: 1rem; margin: 4rem 0 2rem; }
+        .section-title { color: #fff; font-weight: 800; letter-spacing: 2px; font-size: 1.6rem; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: var(--accent-pink); }
         .section-line { height: 2px; background: linear-gradient(90deg, var(--accent-blue), transparent); flex: 1; opacity: 0.5; }
 
-        .yt-container { display: grid; gap: 30px; grid-template-columns: 1fr; }
+        /* YouTube Container */
+        .yt-container { display: grid; gap: 25px; grid-template-columns: 1fr; margin-bottom: 2rem; }
         @media (min-width: 900px) { .yt-container { grid-template-columns: 1fr 1fr; } }
-        .yt-card { display: flex; flex-direction: column; cursor: pointer; padding: 0; }
-        .yt-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); border-color: var(--accent-blue); }
-        
-        .yt-label {
-            padding: 8px 18px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; letter-spacing: 1.5px;
-            text-transform: uppercase; display:inline-flex; align-items:center; gap:8px;
-        }
-        .lbl-stream { background: rgba(255, 126, 179, 0.2); color: #fff; border: 1px solid var(--accent-pink); box-shadow: 0 0 15px rgba(255, 126, 179, 0.4); }
+        .yt-card { padding: 0; transition: transform 0.3s, box-shadow 0.3s; }
+        .yt-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); border-color: var(--accent-pink); }
+        .yt-label { padding: 8px 15px; border-radius: 10px; font-weight: 800; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; display:inline-flex; align-items:center; gap:8px; margin: 12px 16px; }
+        .lbl-stream { background: rgba(255, 126, 179, 0.2); color: #fff; border: 1px solid var(--accent-pink); }
         .lbl-hunt { background: rgba(143, 211, 244, 0.2); color: #fff; border: 1px solid var(--accent-blue); }
 
-        .store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; }
-        .item-card { display: flex; flex-direction: column; height: 100%; position: relative; }
-        .item-card:hover { transform: translateY(-10px); border-color: rgba(255, 255, 255, 0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+        /* Dynamic Store Grid */
+        .store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 3rem; }
+        .item-card { display: flex; flex-direction: column; height: 100%; position: relative; transition: 0.3s; }
+        .item-card:hover { transform: translateY(-8px); border-color: rgba(255, 255, 255, 0.3); box-shadow: 0 20px 45px rgba(0,0,0,0.4); }
         
-        .type-tag {
-            position: absolute; top: 15px; right: 15px; padding: 8px 16px; border-radius: 12px; font-weight: 800; font-size: 0.8rem; z-index: 2; letter-spacing: 1px;
-            text-transform: uppercase; backdrop-filter: blur(10px); display: flex; align-items: center; gap: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
+        .type-tag { position: absolute; top: 15px; right: 15px; padding: 6px 14px; border-radius: 10px; font-weight: 800; font-size: 0.75rem; z-index: 2; letter-spacing: 1px; text-transform: uppercase; backdrop-filter: blur(10px); display: flex; align-items: center; gap: 6px; }
         .tag-msrp { background: rgba(255,255,255,0.9); color: #1a1a24; }
         .tag-bundle { background: var(--accent-purple); color: #fff; }
-        .tag-baller { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+        .tag-baller { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); color: #fff; }
         
-        .time-tag-bottom {
-            position: absolute; bottom: 12px; left: 12px; 
-            padding: 8px 14px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; z-index: 3; letter-spacing: 1px;
-            background: rgba(15, 12, 41, 0.85); backdrop-filter: blur(8px); color: #fff; border: 1px solid rgba(255,255,255,0.3);
-            display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
-        .tag-is-live { background: linear-gradient(135deg, #ff4b4b, #ff0000); border-color: #fff; animation: pulseLive 2s infinite; }
-
-        @keyframes pulseLive { 0% { box-shadow: 0 0 0 0 rgba(255, 75, 75, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(255, 75, 75, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 75, 75, 0); } }
-
-        .item-img-box { height: 280px; overflow:hidden; position: relative; cursor: pointer; border-bottom: 1px solid var(--card-border); }
-        .item-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .item-img-box { height: 260px; overflow:hidden; position: relative; cursor: pointer; border-bottom: 1px solid var(--card-border); }
+        .item-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .item-card:hover .item-img { transform: scale(1.08) rotate(1deg); }
         
         .item-content { padding: 1.8rem; flex: 1; display: flex; flex-direction: column; }
-        .item-content h3 { font-size: 1.4rem; margin-bottom: 0.6rem; font-weight: 800; line-height: 1.3; color: #fff; }
-        .item-content p { color: var(--text-muted); font-size: 1rem; line-height: 1.6; font-weight: 500; margin-bottom: 1.5rem; flex: 1; }
+        .item-content h3 { font-size: 1.4rem; margin-bottom: 0.6rem; font-weight: 800; color: #fff; }
+        .item-content p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; font-weight: 500; margin-bottom: 1.5rem; flex: 1; }
         
-        .date-row { display: flex; align-items: center; gap: 8px; color: var(--accent-blue); font-weight: 700; font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; }
-
         .price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-top: 1.2rem; border-top: 1px solid var(--card-border); }
-        .price { font-size: 1.8rem; font-weight: 800; color: #fff; }
-        .stock { font-size: 0.85rem; color: #fff; background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; font-weight: 700; border: 1px solid rgba(255,255,255,0.15); }
+        .price { font-size: 1.6rem; font-weight: 800; color: var(--accent-blue); }
+        .stock { font-size: 0.85rem; color: #fff; background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 20px; font-weight: 700; border: 1px solid rgba(255,255,255,0.1); }
         
-        .buy-btn {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 1.2rem; border-radius: 16px;
-            background: rgba(255,255,255,0.1); color: white; text-decoration: none; font-weight: 800; font-size: 1.1rem; letter-spacing: 1.5px;
-            transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; text-transform: uppercase;
-        }
+        .buy-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.2rem; border-radius: 14px; background: rgba(255,255,255,0.1); color: white; text-decoration: none; font-weight: 800; font-size: 1rem; letter-spacing: 1.5px; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; text-transform: uppercase; }
         .buy-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        
-        .live-btn { background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple)); border-color: #fff; box-shadow: 0 5px 20px rgba(255, 126, 179, 0.4); }
-        .live-btn:hover { background: linear-gradient(135deg, #ff9ebc, #b673e8); box-shadow: 0 10px 30px rgba(255, 126, 179, 0.6); }
-        .live-btn .btn-subtext { color: #fff; opacity: 0.9; }
-
-        .btn-subtext { font-size: 0.75rem; opacity: 0.7; margin-top: 5px; font-weight: 700; letter-spacing: 1px; }
+        .live-btn { background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple)); border-color: #fff; }
         .sold-out { background: rgba(0,0,0,0.3) !important; color: #777 !important; border-color: rgba(255,255,255,0.05) !important; pointer-events: none; }
-        .sold-out .btn-subtext { display: none; }
 
-        .empty-state { text-align: center; padding: 5rem 2rem; background: var(--card-bg); backdrop-filter: blur(20px); border-radius: 24px; border: 1px solid var(--card-border); grid-column: 1 / -1; box-shadow: inset 0 0 50px rgba(0,0,0,0.2); }
-        .empty-state h2 { color: #fff; margin-bottom: 1.5rem; font-size: 2.5rem; font-weight: 800; text-shadow: 0 0 15px var(--accent-blue); }
-        .empty-state p { color: var(--text-muted); font-size: 1.2rem; max-width: 600px; margin: 0 auto; line-height: 1.7; font-weight: 500; }
+        .empty-state { grid-column: 1/-1; text-align: center; padding: 4rem 2rem; }
+        .empty-state h2 { color: var(--accent-pink); margin-bottom: 1rem; font-size: 2rem; }
+        .empty-state p { color: var(--text-muted); font-size: 1.1rem; }
 
-        footer { text-align: center; padding: 2rem 0 4rem; color: var(--text-muted); font-size: 0.95rem; font-weight: 600; }
+        /* Static Info Section */
+        .info-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        @media (min-width: 900px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+        
+        .info-box { padding: 2.5rem; font-size: 1.05rem; line-height: 1.7; }
+        .info-box h3 { color: #fff; margin-bottom: 1.5rem; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--card-border); padding-bottom: 10px;}
+        .info-box h3 i { color: var(--accent-pink); }
+        .info-box p { color: var(--text-muted); margin-bottom: 1rem; }
+        .info-box ul { padding-left: 1.5rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .info-box li { margin-bottom: 10px; }
+        .highlight { color: var(--accent-blue); font-weight: 700; }
+        .alert-text { color: var(--accent-pink); font-weight: 800; text-transform: uppercase; }
+
+        .payment-links a { color: var(--accent-pink); text-decoration: none; font-weight: 800; border-bottom: 1px dashed var(--accent-pink); transition: 0.2s; }
+        .payment-links a:hover { color: #fff; border-color: #fff; }
+
+        footer { text-align: center; padding: 2rem 0; color: var(--text-muted); font-size: 0.9rem; }
 
         .image-modal { display: none; position: fixed; z-index: 9999; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15, 12, 41, 0.95); align-items: center; justify-content: center; backdrop-filter: blur(15px); }
         .modal-content { max-width: 90%; max-height: 85vh; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); border: 2px solid var(--accent-pink); }
-        .close-modal { position: absolute; top: 30px; right: 40px; color: #fff; font-size: 50px; font-weight: 700; cursor: pointer; text-shadow: 0 0 10px var(--accent-pink); }
+        .close-modal { position: absolute; top: 30px; right: 40px; color: #fff; font-size: 50px; font-weight: 700; cursor: pointer; }
 
         @media (max-width: 768px) {
-            .poke-bg { display: none; } 
-            h1 { font-size: 3rem; }
-            main { padding: 1.5rem 1rem; }
-            .sub-info-panel { flex-direction: column; text-align: center; padding: 2rem; }
-            .sub-text h3 { justify-content: center; }
+            .poke-bg { display: none; }
+            h1 { font-size: 2.5rem; }
+            main { padding: 1rem; }
+            .info-box { padding: 1.5rem; }
         }
     </style>
 </head>
@@ -195,38 +133,82 @@
     <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/196.png" class="poke-bg p-espeon">
     <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/300.png" class="poke-bg p-skitty">
     <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/906.png" class="poke-bg p-sprigatito">
-    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/509.png" class="poke-bg p-purrloin">
-    
+
     <header>
         <h1>POKENINS</h1>
-        <div class="subtitle">Card Breaks & Collections</div>
+        <div class="subtitle">ALL PACKS OPENED ON LIVE STREAMS</div>
     </header>
 
     <main>
-        <div class="glass-panel sub-info-panel">
-            <div class="sub-text">
-                <h3><i class="ph-fill ph-sparkle"></i> Join the Pokenins Family</h3>
-                <p>Support the channel, catch the latest streams, and be the first to know when our magical new break boxes drop.</p>
-            </div>
-            <div class="sub-actions">
-                <a href="https://www.youtube.com/@pokenins?sub_confirmation=1" target="_blank" class="sub-btn"><i class="ph-fill ph-youtube-logo"></i> SUBSCRIBE</a>
-            </div>
-        </div>
-
         <div class="section-header">
-            <span class="section-title">Latest on Channel</span>
+            <span class="section-title"><i class="ph-fill ph-youtube-logo"></i> Latest on Channel</span>
             <span class="section-line"></span>
         </div>
         <div id="yt-container" class="yt-container"></div>
-        
-        <div class="section-header" style="margin-top: 5rem;">
-            <span class="section-title">Available Breaks</span>
+
+        <div class="section-header">
+            <span class="section-title"><i class="ph-fill ph-cards"></i> Available Packs</span>
             <span class="section-line"></span>
         </div>
-        <div class="store-grid" id="store-container"></div>
+        <div class="store-grid" id="store-container">
+            <div class="empty-state glass-panel">
+                <h2>Loading Vault...</h2>
+                <p>Fetching the latest packs for the next stream.</p>
+            </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 5rem;">
+            <span class="section-title"><i class="ph-fill ph-info"></i> Important Details</span>
+            <span class="section-line"></span>
+        </div>
+
+        <div class="info-grid">
+            <div class="glass-panel info-box">
+                <h3><i class="ph-fill ph-book-open-text"></i> Rules & Info (PLEASE READ)</h3>
+                <ul>
+                    <li><span class="highlight">Price:</span> Boosters + Shipping. Shipping is not free for orders even if you won a giveaway. Giveaways are usually shipped separately.</li>
+                    <li>Shipped safely from <span class="highlight">TX, USA.</span></li>
+                    <li>Everything is packed very carefully. Sleeves, cardsavers, and toploaders are included!</li>
+                    <li>I can send you either just the hits or bulk, it’s up to you. (You will pay a higher shipping if bulk is required).</li>
+                </ul>
+                
+                <h3><i class="ph-fill ph-credit-card"></i> Payment Methods</h3>
+                <p class="payment-links" style="margin-bottom: 10px;">
+                    Payment via PayPal: <a href="https://paypal.me/Pokegirlnin" target="_blank">paypal.me/Pokegirlnin</a><br>
+                    <span style="font-size: 0.9rem; color: #888;">(USD + Family and Friends, please!)</span>
+                </p>
+                <p class="payment-links">
+                    Or via Revolut: <a href="https://revolut.me/ninab36js" target="_blank">revolut.me/ninab36js</a><br>
+                    <span style="font-size: 0.9rem; color: #888;">(e.g. with Apple Pay)</span>
+                </p>
+                <p style="margin-top: 20px; font-size:0.95rem;">Questions? Email: <span class="highlight">pokegirlnin@proton.me</span> or <span class="highlight">niniak@protonmail.com</span></p>
+            </div>
+
+            <div class="glass-panel info-box">
+                <h3><i class="ph-fill ph-airplane-tilt"></i> Shipping Rates</h3>
+                <p class="alert-text" style="margin-bottom: 1.5rem;">Please don't pay shipping in advance, thanks!</p>
+                
+                <h4 style="color:#fff; margin-bottom: 0.5rem; font-size:1.1rem;">USA - Tracked</h4>
+                <p>Shipped with PirateShip which allows lower rates than regular USPS. Ask about the shipping price individually; the lightest bubble envelope shipments start around <span class="highlight">6 USD</span>.</p>
+
+                <h4 style="color:#fff; margin: 2rem 0 0.5rem; font-size:1.1rem;">Europe (UK Included) - Tracked</h4>
+                <p>You will have to wait until I’m back in Europe, unless you want to pay high shipping rates from the USA to Europe.</p>
+                <ul style="margin-top: 10px;">
+                    <li>Under 500 grams - <span class="highlight">9 EUR</span></li>
+                    <li>Under 2 kg - <span class="highlight">16 EUR</span></li>
+                    <li>Under 3 kg - <span class="highlight">24 EUR</span></li>
+                    <li>Under 4 kg - <span class="highlight">27 EUR</span></li>
+                    <li>Under 5 kg - <span class="highlight">30 EUR</span></li>
+                </ul>
+
+                <h4 style="color:#fff; margin: 2rem 0 0.5rem; font-size:1.1rem;">Australia & Canada</h4>
+                <p>TBA (To Be Announced)</p>
+            </div>
+        </div>
+
     </main>
     
-    <footer><p>© 2025 Pokenins • Catch you on the next stream!</p></footer>
+    <footer><p>© 2026 Pokenins • Catch you on the next stream!</p></footer>
 
     <div id="myModal" class="image-modal" onclick="closeModal()">
         <span class="close-modal">&times;</span>
@@ -234,8 +216,7 @@
     </div>
 
     <script>
-        // --- 🚨 REPLACE THIS WITH YOUR CLOUDFLARE URL ONCE DEPLOYED 🚨 ---
-        const API_URL = 'https://YOUR_WORKER_URL_HERE.workers.dev/api';
+        const API_URL = 'https://pokenins-api.kronborgnielsen.workers.dev/api';
 
         async function loadVideos() {
             const container = document.getElementById('yt-container');
@@ -277,8 +258,8 @@
                         : `<div class="yt-label lbl-hunt"><i class="ph-fill ph-video"></i> Latest Video</div>`;
                     
                     videoHTML += `
-                        <div class="yt-card glass-panel">
-                            <div style="padding: 16px 20px;">${badgeHTML}</div>
+                        <div class="glass-panel yt-card">
+                            ${badgeHTML}
                             <div style="aspect-ratio: 16/9; width: 100%; position: relative;">
                                 <iframe src="https://www.youtube.com/embed/${v.id}?autoplay=0&mute=1&playsinline=1&controls=1&modestbranding=1&rel=0" 
                                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen>
@@ -292,17 +273,6 @@
             }
         }
 
-        function formatLiteralDate(isoString) {
-            if (!isoString) return "";
-            const [datePart, timePart] = isoString.split('T');
-            const [year, monthNum, day] = datePart.split('-');
-            let [hour, minute] = timePart.split(':');
-            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            let h = parseInt(hour); let ampm = h >= 12 ? 'PM' : 'AM';
-            if (h > 12) h -= 12; if (h === 0) h = 12;
-            return `${months[parseInt(monthNum)-1]} ${parseInt(day)} • ${h}:${minute} ${ampm}`;
-        }
-
         async function loadStore() {
             const container = document.getElementById('store-container');
             try {
@@ -312,44 +282,23 @@
                 
                 items.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
                 let storeHTML = '';
-                const now = new Date().getTime();
                 let visibleCount = 0;
                 
                 items.forEach(item => {
                     if (item.hidden) return; 
                     visibleCount++;
 
-                    let tagClass = 'tag-msrp', tagText = 'Standard Box';
-                    if (item.type === 'baller') { tagClass = 'tag-baller'; tagText = 'Premium Box'; } 
-                    else if (item.type === 'bundle') { tagClass = 'tag-bundle'; tagText = 'Bundle Box'; }
+                    let tagClass = 'tag-msrp', tagText = 'Standard';
+                    if (item.type === 'baller') { tagClass = 'tag-baller'; tagText = 'Premium'; } 
+                    else if (item.type === 'bundle') { tagClass = 'tag-bundle'; tagText = 'Bundle'; }
                     
-                    let timeBadgeHTML = '', dateDisplayHTML = '', startTime = null, endTime = null, isLive = false, isEnded = false;
-
-                    if (item.scheduleDate) {
-                        dateDisplayHTML = `<div class="date-row"><i class="ph-fill ph-calendar-blank"></i> ${formatLiteralDate(item.scheduleDate)}</div>`;
-                        startTime = new Date(item.scheduleDate + "-06:00").getTime();
-                    }
-                    if (item.scheduleEnd) endTime = new Date(item.scheduleEnd + "-06:00").getTime();
-
-                    if(item.stock <= 0) isEnded = true; 
-                    else if (startTime) {
-                        if (endTime && now >= endTime) isEnded = true;
-                        else if (now >= startTime) isLive = true;
-                    }
-
-                    if (!isEnded) {
-                        if (isLive) timeBadgeHTML = `<div class="time-tag-bottom tag-is-live"><i class="ph-fill ph-broadcast"></i> LIVE NOW</div>`;
-                        else if (startTime) timeBadgeHTML = `<div class="time-tag-bottom countdown-timer" data-date="${item.scheduleDate}" data-end="${item.scheduleEnd||''}" data-id="${item.id}"><i class="ph-fill ph-clock"></i> CALC...</div>`;
-                    }
-
+                    let isEnded = item.stock <= 0;
                     let btnHTML = '';
+                    
                     if (isEnded) btnHTML = `<div class="buy-btn sold-out">SOLD OUT</div>`;
                     else if (item.googleFormLink) {
-                        let btnText = isLive ? "JOIN LIVE DRAW" : "RESERVE SPOT";
-                        let subText = isLive ? "HAPPENING NOW!" : "SECURE YOUR PACKS";
-                        let btnClass = isLive ? "buy-btn live-btn" : "buy-btn";
-                        btnHTML = `<a href="${item.googleFormLink}" target="_blank" id="btn-${item.id}" class="${btnClass}" onclick="trackClick('${item.id}')">
-                                    <span>${btnText}</span><span class="btn-subtext">${subText}</span></a>`;
+                        btnHTML = `<a href="${item.googleFormLink}" target="_blank" class="buy-btn live-btn" onclick="trackClick('${item.id}')">
+                                    <span>Reserve Spot</span></a>`;
                     } else btnHTML = `<div class="buy-btn sold-out">COMING SOON</div>`;
                     
                     const img = item.image || 'https://assets.pokemon.com/assets/cms2/img/misc/trading-card-games/cards/tcg_default_card.png';
@@ -359,68 +308,32 @@
                             <div class="type-tag ${tagClass}">${tagText}</div>
                             <div class="item-img-box" onclick="openModal('${img}')">
                                 <img src="${img}" class="item-img">
-                                <div id="badge-container-${item.id}">${timeBadgeHTML}</div>
                             </div>
                             <div class="item-content">
                                 <h3>${item.name}</h3>
-                                ${dateDisplayHTML} 
                                 <p>${item.description}</p>
                                 <div class="price-row">
                                     <span class="price">$${item.price.toFixed(2)}</span>
                                     <span class="stock">${item.stock} Spots left</span>
                                 </div>
-                                <div id="btn-container-${item.id}">${btnHTML}</div>
+                                ${btnHTML}
                             </div>
                         </div>`;
                 });
                 
                 if (visibleCount === 0) {
                     storeHTML = `
-                        <div class="empty-state">
+                        <div class="empty-state glass-panel">
                             <h2>The Vault is Empty</h2>
-                            <p>There are no breaks available right now. I'm currently sourcing the best packs for our next stream. Make sure to subscribe to the channel so you don't miss the drop!</p>
+                            <p>I'm currently sourcing the best packs for our next stream.</p>
                         </div>`;
                 }
                 container.innerHTML = storeHTML;
-                startCountdownTimer();
-            } catch(e) { console.error(e); }
+            } catch(e) { 
+                container.innerHTML = `<div class="empty-state glass-panel"><p>Error connecting to the database. Make sure your API_URL is correct.</p></div>`;
+            }
         }
 
-        function updateTimers() {
-            const timers = document.querySelectorAll('.countdown-timer');
-            const now = new Date().getTime();
-            timers.forEach(timer => {
-                const dateStr = timer.dataset.date, endDateStr = timer.dataset.end, itemId = timer.dataset.id;
-                const startTarget = new Date(dateStr + "-06:00").getTime();
-                let endTarget = endDateStr ? new Date(endDateStr + "-06:00").getTime() : null;
-
-                if (endTarget && now >= endTarget) {
-                    const btnContainer = document.getElementById(`btn-container-${itemId}`);
-                    if(btnContainer) btnContainer.innerHTML = `<div class="buy-btn sold-out">SOLD OUT</div>`;
-                    const badgeContainer = document.getElementById(`badge-container-${itemId}`);
-                    if(badgeContainer) badgeContainer.innerHTML = '';
-                    return;
-                }
-
-                const distance = startTarget - now;
-                if (distance < 0) {
-                    const badgeContainer = document.getElementById(`badge-container-${itemId}`);
-                    if(badgeContainer && !badgeContainer.innerHTML.includes('LIVE NOW')) badgeContainer.innerHTML = `<div class="time-tag-bottom tag-is-live"><i class="ph-fill ph-broadcast"></i> LIVE NOW</div>`;
-                    const btnContainer = document.getElementById(`btn-container-${itemId}`);
-                    const anchor = btnContainer?.querySelector('a');
-                    if(anchor && !anchor.classList.contains('live-btn')) {
-                        anchor.className = "buy-btn live-btn";
-                        anchor.querySelector('span').innerText = "JOIN LIVE DRAW";
-                        anchor.querySelector('.btn-subtext').innerText = "HAPPENING NOW!";
-                    }
-                } else {
-                    const d = Math.floor(distance / 86400000), h = Math.floor((distance % 86400000) / 3600000), m = Math.floor((distance % 3600000) / 60000);
-                    timer.innerHTML = `<i class="ph-fill ph-clock"></i> ${d > 0 ? d + 'd ' : ''}${h}h ${m}m`;
-                }
-            });
-        }
-
-        function startCountdownTimer() { updateTimers(); setInterval(updateTimers, 60000); }
         function trackClick(id) { fetch(`${API_URL}/click`, { method: 'POST', body: JSON.stringify({ id: id }) }).catch(()=>{}); }
         
         loadVideos(); loadStore();
