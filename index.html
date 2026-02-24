@@ -216,30 +216,37 @@
     </div>
 
     <script>
-        const API_URL = 'https://pokenins-api.kronborgnielsen.workers.dev/api';
+        // API URLs
+        const WORKER_API_URL = 'https://pokenins-api.kronborgnielsen.workers.dev/api';
+        const YT_CHANNEL_ID = 'UCGHwvwUZw9yk9GlpH8d-mlA';
+        const RSS_JSON_API = `https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.youtube.com%2Ffeeds%2Fvideos.xml%3Fchannel_id%3D${YT_CHANNEL_ID}`;
 
         async function loadVideos() {
             const container = document.getElementById('yt-container');
             try {
-                const res = await fetch(`${API_URL}/youtube`);
-                const text = await res.text();
-                const doc = new DOMParser().parseFromString(text, "text/xml");
-                const entries = Array.from(doc.querySelectorAll("entry")).slice(0, 15);
+                // Fetching via rss2json for maximum frontend stability
+                const res = await fetch(RSS_JSON_API);
+                const data = await res.json();
+                
+                if (data.status !== 'ok' || !data.items || data.items.length === 0) {
+                    throw new Error("Could not fetch videos");
+                }
                 
                 let streamVideo = null, huntVideo = null;
 
-                for (let entry of entries) {
-                    const rawTitle = entry.querySelector("title").textContent;
+                for (let item of data.items) {
+                    const videoId = item.link.split('v=')[1];
+                    const rawTitle = item.title;
                     if (rawTitle.toLowerCase().match(/stream|live|break/)) {
-                        streamVideo = { id: entry.querySelector("videoId").textContent, title: rawTitle, type: 'stream' };
+                        streamVideo = { id: videoId, title: rawTitle, type: 'stream' };
                         break;
                     }
                 }
-                for (let entry of entries) {
-                    const rawTitle = entry.querySelector("title").textContent;
-                    const id = entry.querySelector("videoId").textContent;
-                    if (!rawTitle.toLowerCase().match(/stream|live/) && (!streamVideo || id !== streamVideo.id)) {
-                        huntVideo = { id, title: rawTitle, type: 'hunt' };
+                for (let item of data.items) {
+                    const videoId = item.link.split('v=')[1];
+                    const rawTitle = item.title;
+                    if (!rawTitle.toLowerCase().match(/stream|live/) && (!streamVideo || videoId !== streamVideo.id)) {
+                        huntVideo = { id: videoId, title: rawTitle, type: 'hunt' };
                         break;
                     }
                 }
@@ -248,7 +255,7 @@
                 if (streamVideo) videos.push(streamVideo);
                 if (huntVideo) videos.push(huntVideo);
                 
-                if (videos.length === 0) throw new Error("No videos");
+                if (videos.length === 0) throw new Error("No videos found");
                 
                 let videoHTML = '';
                 videos.forEach(v => {
@@ -269,6 +276,7 @@
                 });
                 container.innerHTML = videoHTML;
             } catch(e) {
+                console.error(e);
                 container.innerHTML = `<div style="grid-column:1/-1; text-align:center;"><a href="https://www.youtube.com/@pokenins" target="_blank" class="buy-btn live-btn" style="max-width:250px; margin:0 auto;"><span>VISIT CHANNEL</span></a></div>`;
             }
         }
@@ -276,7 +284,7 @@
         async function loadStore() {
             const container = document.getElementById('store-container');
             try {
-                const res = await fetch(`${API_URL}/items`);
+                const res = await fetch(`${WORKER_API_URL}/items`);
                 const items = await res.json();
                 if(items.error) return;
                 
@@ -330,11 +338,12 @@
                 }
                 container.innerHTML = storeHTML;
             } catch(e) { 
+                console.error(e);
                 container.innerHTML = `<div class="empty-state glass-panel"><p>Error connecting to the database. Make sure your API_URL is correct.</p></div>`;
             }
         }
 
-        function trackClick(id) { fetch(`${API_URL}/click`, { method: 'POST', body: JSON.stringify({ id: id }) }).catch(()=>{}); }
+        function trackClick(id) { fetch(`${WORKER_API_URL}/click`, { method: 'POST', body: JSON.stringify({ id: id }) }).catch(()=>{}); }
         
         loadVideos(); loadStore();
 
