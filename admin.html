@@ -11,7 +11,6 @@
         :root { --bg: #0f0c29; --card: rgba(255,255,255,0.05); --accent: #ff7eb3; --text: #ffffff; --border: rgba(255,255,255,0.15); }
         body { background: var(--bg); color: var(--text); font-family: 'Quicksand', sans-serif; padding: 2rem; min-height: 100vh; }
         
-        /* Floating Wigglypuff Admin Background */
         .admin-bg { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 500px; opacity: 0.05; pointer-events: none; z-index: -1; }
 
         .container { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
@@ -19,13 +18,13 @@
         
         .card { background: var(--card); padding: 2rem; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 2rem; backdrop-filter: blur(10px); }
         
-        /* Clean Form Grid */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 1rem; }
         .form-full { grid-column: 1 / -1; }
         
         label { display: block; margin-bottom: 5px; color: #b8c1ec; font-weight: 700; font-size: 0.9rem; }
-        input, select { width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: white; border-radius: 8px; font-family: 'Quicksand', sans-serif; font-size: 1rem; }
-        input:focus, select:focus { outline: none; border-color: var(--accent); }
+        input, select, textarea { width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: white; border-radius: 8px; font-family: 'Quicksand', sans-serif; font-size: 1rem; box-sizing: border-box;}
+        textarea { resize: vertical; min-height: 80px; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
         
         .checkbox-wrapper { display: flex; align-items: center; gap: 10px; margin-top: 10px; cursor: pointer; }
         .checkbox-wrapper input { width: 20px; height: 20px; cursor: pointer; margin: 0; }
@@ -34,7 +33,6 @@
         button:hover { filter: brightness(1.1); }
         .btn-full { width: 100%; margin-top: 10px; }
 
-        /* Inventory Table */
         .inventory-list { display: flex; flex-direction: column; gap: 10px; }
         .inv-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
         .inv-info { flex: 1; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 15px; align-items: center; }
@@ -76,7 +74,7 @@
             <h1><i class="ph-fill ph-clipboard-text"></i> Inventory Manager</h1>
             
             <div class="card">
-                <h3 style="margin-top:0; margin-bottom:1.5rem; font-size:1.2rem; color:var(--accent);">Add / Edit Item</h3>
+                <h3 style="margin-top:0; margin-bottom:1.5rem; font-size:1.2rem; color:var(--accent);">Add / Edit Pack</h3>
                 
                 <div class="form-grid">
                     <div class="form-full">
@@ -101,7 +99,7 @@
                     </div>
 
                     <div>
-                        <label>Price ($)</label>
+                        <label>Price (€)</label>
                         <input type="number" step="0.5" id="item-price" placeholder="9.50">
                     </div>
 
@@ -129,8 +127,54 @@
             
             <h3 style="color:#b8c1ec; margin-bottom:1rem;">Current Store Inventory</h3>
             <div class="inventory-list" id="item-list"></div>
+
+            <h1 style="margin-top: 4rem;"><i class="ph-fill ph-gear"></i> Store Information & Settings</h1>
             
-            <button onclick="logout()" style="background:transparent; border:1px solid #ff4b4b; color:#ff4b4b; margin-top:3rem;">Log Out</button>
+            <div class="card">
+                <h3 style="margin-top:0; margin-bottom:1.5rem; font-size:1.2rem; color:var(--accent);">Update Site Text</h3>
+                <p style="color:#b8c1ec; margin-bottom:1rem; font-size:0.9rem;">Changes made here will instantly update the rules, shipping, and text on your main store page. Use enter/return to make new lines!</p>
+
+                <div class="form-grid">
+                    <div class="form-full">
+                        <label>Header Subtitle</label>
+                        <input type="text" id="set-subtitle" placeholder="🌸 All Packs Opened on Live Streams 🌸">
+                    </div>
+                    
+                    <div class="form-full">
+                        <label>Rules & General Info</label>
+                        <textarea id="set-rules" rows="5"></textarea>
+                    </div>
+
+                    <div class="form-full">
+                        <label>Payment Methods</label>
+                        <textarea id="set-payment" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-full">
+                        <label>Shipping: USA</label>
+                        <textarea id="set-ship-usa" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-full">
+                        <label>Shipping: Europe</label>
+                        <textarea id="set-ship-eu" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-full">
+                        <label>Shipping: Australia & Canada</label>
+                        <textarea id="set-ship-other" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-full">
+                        <label>Footer Text</label>
+                        <input type="text" id="set-footer" placeholder="© 2026 Pokenins...">
+                    </div>
+                </div>
+
+                <button onclick="saveSettings()" id="save-settings-btn" class="btn-full" style="margin-top:10px;">Update Site Information</button>
+            </div>
+            
+            <button onclick="logout()" style="background:transparent; border:1px solid #ff4b4b; color:#ff4b4b; margin-top:2rem;">Log Out</button>
         </div>
     </div>
 
@@ -142,6 +186,7 @@
             document.getElementById('login-section').style.display='none';
             document.getElementById('admin-section').style.display='block';
             loadItems();
+            loadSettings();
         }
 
         async function login() {
@@ -154,6 +199,7 @@
             } catch(e) { alert('Network Error.'); }
         }
 
+        // --- INVENTORY MANAGEMENT ---
         async function submitItem() {
             const btn = document.getElementById('submit-btn'); btn.innerText = "Saving...";
             
@@ -197,7 +243,7 @@
                                     <div class="inv-name">${item.name}</div>
                                     <div class="inv-cat">${item.category}</div>
                                 </div>
-                                <div style="font-weight:700;">$${item.price}</div>
+                                <div style="font-weight:700;">€${parseFloat(item.price).toFixed(2)}</div>
                                 <div style="color:var(--accent-blue); font-weight:700;">Stock: ${item.stock}</div>
                                 <div>${statusHtml}</div>
                             </div>
@@ -220,7 +266,7 @@
                 document.getElementById('item-price').value = item.price; 
                 document.getElementById('item-stock').value = item.stock;
                 document.getElementById('item-link').value = item.paymentLink || '';
-                document.getElementById('item-active').checked = item.isActive !== false; // defaults to true
+                document.getElementById('item-active').checked = item.isActive !== false;
                 
                 document.getElementById('submit-btn').innerText = "Update Item"; 
                 window.scrollTo(0,0);
@@ -239,6 +285,53 @@
         }
 
         async function deleteItem(id) { if(confirm('Delete this item completely?')) { await fetch(`${API_URL}/items/${id}`, {method:'DELETE'}); loadItems(); } }
+        
+        // --- SITE SETTINGS MANAGEMENT ---
+        async function loadSettings() {
+            try {
+                const res = await fetch(`${API_URL}/settings`);
+                const data = await res.json();
+                
+                document.getElementById('set-subtitle').value = data.subtitle || '';
+                document.getElementById('set-rules').value = data.rules || '';
+                document.getElementById('set-payment').value = data.payment || '';
+                document.getElementById('set-ship-usa').value = data.shippingUsa || '';
+                document.getElementById('set-ship-eu').value = data.shippingEu || '';
+                document.getElementById('set-ship-other').value = data.shippingOther || '';
+                document.getElementById('set-footer').value = data.footer || '';
+            } catch (e) {
+                console.error("Failed to load settings", e);
+            }
+        }
+
+        async function saveSettings() {
+            const btn = document.getElementById('save-settings-btn');
+            btn.innerText = "Updating...";
+
+            const body = {
+                subtitle: document.getElementById('set-subtitle').value,
+                rules: document.getElementById('set-rules').value,
+                payment: document.getElementById('set-payment').value,
+                shippingUsa: document.getElementById('set-ship-usa').value,
+                shippingEu: document.getElementById('set-ship-eu').value,
+                shippingOther: document.getElementById('set-ship-other').value,
+                footer: document.getElementById('set-footer').value,
+            };
+
+            try {
+                await fetch(`${API_URL}/settings`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(body)
+                });
+                btn.innerText = "Successfully Updated! ✓";
+                setTimeout(() => btn.innerText = "Update Site Information", 2000);
+            } catch (e) {
+                alert("Failed to save settings.");
+                btn.innerText = "Update Site Information";
+            }
+        }
+
         function logout() { localStorage.removeItem('adminToken'); location.reload(); }
     </script>
 </body>
