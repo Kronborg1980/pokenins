@@ -23,14 +23,12 @@
         
         body { font-family: 'Quicksand', sans-serif; background: linear-gradient(135deg, var(--bg-deep), var(--bg-mid), var(--bg-light)); background-attachment: fixed; color: var(--text-main); min-height: 100vh; overflow-x: hidden; position: relative; }
 
-        /* Sweet Magical Background */
         .ambient-blob { position: fixed; border-radius: 50%; filter: blur(90px); opacity: 0.35; z-index: -10; animation: drift 20s infinite alternate ease-in-out; pointer-events: none; }
         .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: var(--accent-pink); }
         .blob-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: var(--accent-blue); animation-delay: -5s; }
         .blob-3 { top: 40%; left: 60%; width: 400px; height: 400px; background: var(--accent-purple); animation-delay: -10s; }
         @keyframes drift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(40px, 40px) scale(1.1); } }
 
-        /* Floating Cute Pokemon */
         .poke-bg { position: fixed; pointer-events: none; z-index: -5; opacity: 0.25; filter: drop-shadow(0 0 15px rgba(255, 182, 193, 0.4)); }
         .p-mew { top: 5%; left: 2%; width: var(--guardian-size); animation: float 12s infinite ease-in-out; }
         .p-espeon { top: 5%; right: 2%; width: var(--guardian-size); animation: floatFlipped 14s infinite ease-in-out; }
@@ -44,7 +42,6 @@
         @keyframes floatMid { 0%, 100% { transform: translate3d(0, -30px, 0); } 50% { transform: translate3d(10px, 10px, 0); } }
         @keyframes sway { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* Typography & Layout */
         main { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 2rem; margin-bottom: 4rem; }
         header { text-align: center; padding: 3rem 1rem 2rem; }
         h1 { font-size: clamp(3rem, 8vw, 4.5rem); font-weight: 800; letter-spacing: 2px; line-height: 1.1; background: linear-gradient(to right, #fff, var(--accent-pink), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px rgba(255, 182, 193, 0.4)); }
@@ -57,7 +54,6 @@
         .section-title i { color: var(--accent-pink); }
         .section-line { height: 3px; background: linear-gradient(90deg, var(--accent-pink), transparent); flex: 1; border-radius: 10px; opacity: 0.6; }
 
-        /* YouTube Container */
         .yt-container { display: grid; gap: 20px; grid-template-columns: 1fr; margin-bottom: 3rem; }
         @media (min-width: 768px) { .yt-container { grid-template-columns: 1fr 1fr; } }
         .yt-card { padding: 0; transition: transform 0.3s, box-shadow 0.3s; border-radius: 20px; overflow: hidden; border: 2px solid transparent; }
@@ -66,7 +62,6 @@
         .lbl-stream { background: rgba(255, 182, 193, 0.2); color: #fff; border: 1px solid var(--accent-pink); }
         .lbl-hunt { background: rgba(161, 196, 253, 0.2); color: #fff; border: 1px solid var(--accent-blue); }
 
-        /* Store List UI (The "Normal Store" Look) */
         .menu-category { padding: 2rem; margin-bottom: 1.5rem; }
         .menu-category h2 { color: var(--accent-pink); font-size: 1.5rem; margin-bottom: 1.2rem; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; display: flex; align-items: center; gap: 10px; font-weight: 800; }
         
@@ -89,21 +84,16 @@
         .sold-out .pack-stock { background: rgba(255,255,255,0.1); color: #aaa; }
         .sold-out .pack-price { color: #888; }
 
-        /* Static Info Section */
         .info-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         @media (min-width: 800px) { .info-grid { grid-template-columns: 1fr 1fr; } }
         
         .info-box { padding: 2rem; font-size: 1.05rem; line-height: 1.7; font-weight: 500; }
         .info-box h3 { color: #fff; margin-bottom: 1.5rem; font-size: 1.3rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--card-border); padding-bottom: 10px; font-weight: 800;}
         .info-box h3 i { color: var(--accent-pink); }
-        .info-box ul { padding-left: 1.5rem; color: var(--text-muted); margin-bottom: 1.5rem; }
-        .info-box li { margin-bottom: 10px; }
-        .highlight { color: var(--accent-pink); font-weight: 800; }
-        .alert-text { color: var(--accent-pink); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;}
-
-        .payment-links a { color: var(--accent-blue); text-decoration: none; font-weight: 800; border-bottom: 2px dashed var(--accent-blue); transition: 0.2s; }
-        .payment-links a:hover { color: var(--accent-pink); border-color: var(--accent-pink); }
-
+        
+        /* Formats dynamic text nicely */
+        .dynamic-text { color: var(--text-muted); font-size: 1rem; white-space: pre-line; margin-bottom: 1.5rem; }
+        
         footer { text-align: center; padding: 2rem 0; color: var(--text-muted); font-size: 0.95rem; font-weight: 600; letter-spacing: 1px;}
 
         @media (max-width: 768px) {
@@ -129,7 +119,7 @@
 
     <header>
         <h1>POKENINS</h1>
-        <div class="subtitle">🌸 All Packs Opened on Live Streams 🌸</div>
+        <div class="subtitle" id="site-subtitle">🌸 Loading... 🌸</div>
     </header>
 
     <main>
@@ -146,7 +136,6 @@
         <div id="store-container">
             <div class="glass-panel menu-category" style="text-align:center; padding: 4rem 2rem;">
                 <h3 style="color: var(--accent-pink); margin-bottom: 10px;">Loading the Vault... 💖</h3>
-                <p style="color: var(--text-muted);">Fetching the latest packs for the next stream.</p>
             </div>
         </div>
 
@@ -158,57 +147,61 @@
         <div class="info-grid">
             <div class="glass-panel info-box">
                 <h3><i class="ph-fill ph-book-open-text"></i> Rules & Info</h3>
-                <ul>
-                    <li><span class="highlight">Price:</span> Boosters + Shipping. Shipping is not free for orders even if you won a giveaway. Giveaways are usually shipped separately.</li>
-                    <li>Shipped safely from <span class="highlight">TX, USA.</span></li>
-                    <li>Everything is packed very carefully. Sleeves, cardsavers, and toploaders are included! 🎀</li>
-                    <li>I can send you either just the hits or bulk, it’s up to you. (You will pay a higher shipping if bulk is required).</li>
-                </ul>
+                <div class="dynamic-text" id="site-rules">Loading rules...</div>
                 
                 <h3><i class="ph-fill ph-credit-card"></i> Payment Methods</h3>
-                <p class="payment-links" style="margin-bottom: 12px;">
-                    PayPal: <a href="https://paypal.me/Pokegirlnin" target="_blank">paypal.me/Pokegirlnin</a><br>
-                    <span style="font-size: 0.9rem; color: #a8a8b8;">(USD + Family and Friends, please!)</span>
-                </p>
-                <p class="payment-links">
-                    Revolut: <a href="https://revolut.me/ninab36js" target="_blank">revolut.me/ninab36js</a><br>
-                    <span style="font-size: 0.9rem; color: #a8a8b8;">(e.g. with Apple Pay)</span>
-                </p>
-                <p style="margin-top: 20px; font-size:0.95rem; color: #a8a8b8;">Questions? Email: <span class="highlight">pokegirlnin@proton.me</span></p>
+                <div class="dynamic-text" id="site-payment">Loading payment info...</div>
             </div>
 
             <div class="glass-panel info-box">
                 <h3><i class="ph-fill ph-airplane-tilt"></i> Shipping Rates</h3>
-                <p class="alert-text" style="margin-bottom: 1.5rem;">Please don't pay shipping in advance! ✨</p>
                 
                 <h4 style="color:#fff; margin-bottom: 0.5rem; font-size: 1.15rem;">USA - Tracked</h4>
-                <p style="color: var(--text-muted); font-size: 1rem;">Shipped via PirateShip for lower rates. Lightest bubble envelopes start around <span class="highlight">6 USD</span>.</p>
+                <div class="dynamic-text" id="site-ship-usa">Loading...</div>
 
                 <h4 style="color:#fff; margin: 2rem 0 0.5rem; font-size: 1.15rem;">Europe (UK Included) - Tracked</h4>
-                <p style="color: var(--text-muted); font-size: 1rem;">You will have to wait until I’m back in Europe, unless you want to pay high shipping rates from the USA.</p>
-                <ul style="margin-top: 10px; font-size: 1rem;">
-                    <li>Under 500g - <span class="highlight">9 EUR</span></li>
-                    <li>Under 2 kg - <span class="highlight">16 EUR</span></li>
-                    <li>Under 3 kg - <span class="highlight">24 EUR</span></li>
-                    <li>Under 4 kg - <span class="highlight">27 EUR</span></li>
-                    <li>Under 5 kg - <span class="highlight">30 EUR</span></li>
-                </ul>
+                <div class="dynamic-text" id="site-ship-eu">Loading...</div>
+                
                 <h4 style="color:#fff; margin: 2rem 0 0.5rem; font-size: 1.15rem;">Australia & Canada</h4>
-                <p style="color: var(--text-muted); font-size: 1rem;">TBA</p>
+                <div class="dynamic-text" id="site-ship-other">Loading...</div>
             </div>
         </div>
     </main>
     
-    <footer><p>© 2026 Pokenins • Catch you on the next stream! 💖</p></footer>
+    <footer id="site-footer">© 2026 Pokenins • Catch you on the next stream! 💖</footer>
 
     <script>
-        // 🚨 YOUR EXACT CLOUDFLARE BACKEND 🚨
         const API_URL = 'https://pokenins-api.kronborgnielsen.workers.dev/api';
+
+        // Load Settings First (Text blocks)
+        async function loadSettings() {
+            try {
+                const res = await fetch(`${API_URL}/settings`);
+                const data = await res.json();
+                
+                // Helper to safely format links in text blocks to be clickable
+                const formatText = (txt) => {
+                    if(!txt) return '';
+                    let formatted = txt.replace(/\n/g, '<br>'); // Keep line breaks
+                    formatted = formatted.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" style="color:var(--accent-blue); text-decoration:none; border-bottom:1px dashed var(--accent-blue); font-weight:700;">$1</a>');
+                    return formatted;
+                };
+
+                document.getElementById('site-subtitle').innerText = data.subtitle || '';
+                document.getElementById('site-footer').innerText = data.footer || '';
+                document.getElementById('site-rules').innerHTML = formatText(data.rules);
+                document.getElementById('site-payment').innerHTML = formatText(data.payment);
+                document.getElementById('site-ship-usa').innerHTML = formatText(data.shippingUsa);
+                document.getElementById('site-ship-eu').innerHTML = formatText(data.shippingEu);
+                document.getElementById('site-ship-other').innerHTML = formatText(data.shippingOther);
+            } catch(e) {
+                console.error("Settings Load Error: ", e);
+            }
+        }
 
         async function loadVideos() {
             const container = document.getElementById('yt-container');
             try {
-                // Fetching safely from your Cloudflare Worker!
                 const res = await fetch(`${API_URL}/youtube`);
                 const text = await res.text();
                 const doc = new DOMParser().parseFromString(text, "text/xml");
@@ -257,7 +250,6 @@
                 });
                 container.innerHTML = videoHTML;
             } catch(e) {
-                console.error("YouTube Load Error: ", e);
                 container.innerHTML = `<div class="glass-panel" style="text-align:center; padding: 2rem;"><a href="https://www.youtube.com/@pokenins" target="_blank" class="buy-btn" style="max-width:250px; margin:0 auto; display:inline-block;">VISIT CHANNEL 💖</a></div>`;
             }
         }
@@ -268,10 +260,9 @@
                 const res = await fetch(`${API_URL}/items`);
                 const items = await res.json();
                 
-                // Group items by Category
                 const grouped = {};
                 items.forEach(item => {
-                    if (item.isActive === false) return; // Hide completely if inactive in admin
+                    if (item.isActive === false) return; 
                     const cat = item.category || "Pokémon (English Loose Packs)";
                     if (!grouped[cat]) grouped[cat] = [];
                     grouped[cat].push(item);
@@ -304,7 +295,7 @@
                             buttonHtml = `<span class="pack-stock">${item.stock} Avail</span> 
                                           <a href="${item.paymentLink}" target="_blank" class="buy-btn" onclick="trackClick('${item.id}')">Get Spot 💖</a>`;
                         } else {
-                            buttonHtml = `<span class="pack-stock">${item.stock} Avail</span>`; // Hide button if no link
+                            buttonHtml = `<span class="pack-stock">${item.stock} Avail</span>`; 
                         }
 
                         html += `
@@ -314,7 +305,7 @@
                                     ${item.description ? `<span class="pack-desc">${item.description}</span>` : ''}
                                 </div>
                                 <div class="pack-controls">
-                                    <span class="pack-price">$${item.price.toFixed(2)}</span>
+                                    <span class="pack-price">€${parseFloat(item.price).toFixed(2)}</span>
                                     ${buttonHtml}
                                 </div>
                             </li>
@@ -325,14 +316,13 @@
                 }
                 container.innerHTML = html;
             } catch(e) { 
-                console.error("Store Load Error: ", e);
                 container.innerHTML = `<div class="glass-panel menu-category" style="text-align:center; padding: 2rem;"><p>Could not connect to the database. Make sure your worker is deployed!</p></div>`;
             }
         }
 
         function trackClick(id) { fetch(`${API_URL}/click`, { method: 'POST', body: JSON.stringify({ id: id }) }).catch(()=>{}); }
         
-        loadVideos(); loadStore();
+        loadSettings(); loadVideos(); loadStore();
     </script>
 </body>
 </html>
