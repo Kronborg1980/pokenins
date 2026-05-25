@@ -16,7 +16,8 @@
             --accent-pink: #ffb6c1; --accent-purple: #e0c3fc; --accent-blue: #a1c4fd;
             --text-main: #ffffff; --text-muted: #d5d5e5;
             --card-bg: rgba(255, 255, 255, 0.08); --card-border: rgba(255, 255, 255, 0.2);
-            --guardian-size: clamp(90px, 12vw, 170px);
+            /* Slightly smaller to accommodate the larger squad */
+            --guardian-size: clamp(70px, 9vw, 140px); 
         }
         
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -29,19 +30,31 @@
         .blob-3 { top: 40%; left: 60%; width: 400px; height: 400px; background: var(--accent-purple); animation-delay: -10s; }
         @keyframes drift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(40px, 40px) scale(1.1); } }
 
+        /* Floating Cute Pokemon Squad */
         .poke-bg { position: fixed; pointer-events: none; z-index: -5; opacity: 0.25; filter: drop-shadow(0 0 15px rgba(255, 182, 193, 0.4)); }
-        .p-mew { top: 5%; left: 2%; width: var(--guardian-size); animation: float 12s infinite ease-in-out; }
-        .p-espeon { top: 5%; right: 2%; width: var(--guardian-size); animation: floatFlipped 14s infinite ease-in-out; }
-        .p-skitty { top: 40%; left: -2%; width: calc(var(--guardian-size)*0.8); animation: floatMid 10s infinite ease-in-out 1s; }
-        .p-sprigatito { top: 40%; right: -2%; width: calc(var(--guardian-size)*0.8); animation: floatMid 11s infinite ease-in-out 2s; transform: scaleX(-1); }
+        
+        /* The Original Crew */
+        .p-mew { top: 2%; left: 2%; width: var(--guardian-size); animation: float 12s infinite ease-in-out; }
+        .p-espeon { top: 2%; right: 2%; width: var(--guardian-size); animation: floatFlipped 14s infinite ease-in-out; }
+        .p-skitty { top: 35%; left: -2%; width: calc(var(--guardian-size)*0.8); animation: floatMid 10s infinite ease-in-out 1s; }
+        .p-sprigatito { top: 35%; right: -2%; width: calc(var(--guardian-size)*0.8); animation: floatMid 11s infinite ease-in-out 2s; transform: scaleX(-1); }
         .p-wigglypuff { bottom: 5%; left: 3%; width: calc(var(--guardian-size)*1.1); animation: sway 12s infinite ease-in-out; }
         .p-jigglypuff { bottom: 8%; right: 4%; width: calc(var(--guardian-size)*0.9); animation: sway 10s infinite ease-in-out 1s; transform: scaleX(-1); }
+
+        /* The New Favorites */
+        .p-sylveon { top: 15%; right: 12%; width: var(--guardian-size); animation: floatMid 13s infinite ease-in-out 1.5s; transform: scaleX(-1); }
+        .p-psyduck { top: 18%; left: 12%; width: calc(var(--guardian-size)*0.9); animation: sway 11s infinite ease-in-out 0.5s; }
+        .p-ditto { top: 50%; left: 15%; width: calc(var(--guardian-size)*0.7); animation: float 9s infinite ease-in-out 2s; }
+        .p-chandelure { top: 55%; right: 15%; width: calc(var(--guardian-size)*1.2); animation: floatFlipped 15s infinite ease-in-out; }
+        .p-meowth { bottom: 25%; left: 8%; width: var(--guardian-size); animation: floatMid 12s infinite ease-in-out; }
+        .p-unown { bottom: 22%; right: 10%; width: calc(var(--guardian-size)*0.6); animation: float 8s infinite ease-in-out 1s; }
 
         @keyframes float { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(15px, -20px, 0); } }
         @keyframes floatFlipped { 0%, 100% { transform: scaleX(-1) translate3d(0, 0, 0); } 50% { transform: scaleX(-1) translate3d(-15px, -20px, 0); } }
         @keyframes floatMid { 0%, 100% { transform: translate3d(0, -30px, 0); } 50% { transform: translate3d(10px, 10px, 0); } }
         @keyframes sway { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
+        /* Typography & Layout */
         main { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 2rem; margin-bottom: 4rem; }
         header { text-align: center; padding: 3rem 1rem 2rem; }
         h1 { font-size: clamp(3rem, 8vw, 4.5rem); font-weight: 800; letter-spacing: 2px; line-height: 1.1; background: linear-gradient(to right, #fff, var(--accent-pink), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px rgba(255, 182, 193, 0.4)); }
@@ -91,7 +104,6 @@
         .info-box h3 { color: #fff; margin-bottom: 1.5rem; font-size: 1.3rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--card-border); padding-bottom: 10px; font-weight: 800;}
         .info-box h3 i { color: var(--accent-pink); }
         
-        /* Formats dynamic text nicely */
         .dynamic-text { color: var(--text-muted); font-size: 1rem; white-space: pre-line; margin-bottom: 1.5rem; }
         
         footer { text-align: center; padding: 2rem 0; color: var(--text-muted); font-size: 0.95rem; font-weight: 600; letter-spacing: 1px;}
@@ -116,6 +128,12 @@
     <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/906.png" class="poke-bg p-sprigatito">
     <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/040.png" class="poke-bg p-wigglypuff">
     <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/039.png" class="poke-bg p-jigglypuff">
+    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/700.png" class="poke-bg p-sylveon">
+    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/054.png" class="poke-bg p-psyduck">
+    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png" class="poke-bg p-ditto">
+    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/609.png" class="poke-bg p-chandelure">
+    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/052.png" class="poke-bg p-meowth">
+    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/201.png" class="poke-bg p-unown">
 
     <header>
         <h1>POKENINS</h1>
@@ -179,10 +197,9 @@
                 const res = await fetch(`${API_URL}/settings`);
                 const data = await res.json();
                 
-                // Helper to safely format links in text blocks to be clickable
                 const formatText = (txt) => {
                     if(!txt) return '';
-                    let formatted = txt.replace(/\n/g, '<br>'); // Keep line breaks
+                    let formatted = txt.replace(/\n/g, '<br>'); 
                     formatted = formatted.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" style="color:var(--accent-blue); text-decoration:none; border-bottom:1px dashed var(--accent-blue); font-weight:700;">$1</a>');
                     return formatted;
                 };
@@ -316,6 +333,7 @@
                 }
                 container.innerHTML = html;
             } catch(e) { 
+                console.error("Store Load Error: ", e);
                 container.innerHTML = `<div class="glass-panel menu-category" style="text-align:center; padding: 2rem;"><p>Could not connect to the database. Make sure your worker is deployed!</p></div>`;
             }
         }
