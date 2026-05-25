@@ -82,18 +82,19 @@
                         <input type="text" id="item-name" placeholder="e.g. Ascended Heroes Booster">
                     </div>
                     
-                    <div>
-                        <label>Category</label>
-                        <select id="item-category">
-                            <option value="Pokémon (English Loose Packs)">Pokémon (English Loose Packs)</option>
-                            <option value="Pokémon (Japanese Boxes)">Pokémon (Japanese Boxes)</option>
-                            <option value="Hitskies">Hitskies</option>
-                            <option value="At Your Own Risk, Degens">At Your Own Risk, Degens</option>
-                            <option value="Other TCGs">Other TCGs</option>
-                        </select>
+                    <div class="form-full">
+                        <label>Category (Type your own or pick from the list!)</label>
+                        <input type="text" id="item-category" list="cat-list" placeholder="e.g. Sealed Product">
+                        <datalist id="cat-list">
+                            <option value="Pokémon (English Loose Packs)">
+                            <option value="Pokémon (Japanese Boxes)">
+                            <option value="Hitskies">
+                            <option value="At Your Own Risk, Degens">
+                            <option value="Other TCGs">
+                        </datalist>
                     </div>
 
-                    <div>
+                    <div class="form-full">
                         <label>Small Description (Optional)</label>
                         <input type="text" id="item-desc" placeholder="e.g. Limit 5 per household">
                     </div>
@@ -275,6 +276,7 @@
 
         function resetForm() {
             editingId = null;
+            document.getElementById('item-category').value = '';
             document.getElementById('item-name').value = ''; 
             document.getElementById('item-desc').value = '';
             document.getElementById('item-price').value = ''; 
